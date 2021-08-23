@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poor+Story&display=swap" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <title>TODO LIST</title>
+</head>
+<body>
+    <div class="row" style="background-color: #e4f5fa;">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h1 style="text-align: center; margin: 100px; font-family: 'Fredoka One', cursive;"><span style="color: #007bff;"><%=name%></span>'s TODO LIST</h1>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row justify-content-between">
+        <div class="col-0.5"></div>
+
+        <div class="col-3">
+            <h2 style="text-align: center; margin: 50px; font-family: 'Fredoka One', cursive;">TODO</h2>
+            <div class="input-group input-group-lg" style="margin-bottom: 20px; font-family: 'Poor Story', cursive;">
+                <input type="text" class="form-control" id="todo_content" placeholder="할일을 입력하세요">
+                <button class="btn btn-primary" type="button" id="todo_button" onclick="addTodo()">입력</button>
+            </div>
+            <ul class="list-group" id="todo_list">  
+            </ul>
+        </div>
+
+        <div class="col-3">
+            <h2 style="text-align: center; margin: 50px; font-family: 'Fredoka One', cursive;">DOING</h2>
+            <ul class="list-group" id="doing_list">
+            </ul>
+        </div>
+
+        <div class="col-3">
+            <h2 style="text-align: center; margin: 50px; font-family: 'Fredoka One', cursive;">DONE</h2>
+            <ul class="list-group" id="done_list">
+            </ul>
+        </div>
+
+        <div id="test">
+        </div>
+
+        <div class="col-0.5"></div>
+    </div>
+</body>
+<script>  
+    function addTodo() {
+        if ($("#todo_content").val() == "") {
+            alert("한글자 이상 입력해주세요.");  
+        }
+        else {
+            let todo = $("<li class='list-group-item'></li>").text($("#todo_content").val());
+            let buttons = $("<div class='btn-group btn-group-sm' role='group' style='float: right'></div>");
+            
+            let done = $("<button class='btn btn btn-outline-dark' style='border:0px' type='button'>✔</button>").click(function(){
+                let todo = $(this).parent().parent();
+                todo.fadeOut(function(){
+                    let done_list = $("#done_list");
+                    done_list.append(todo);
+                    todo.fadeIn();
+                });
+            });
+            
+            let doing = $("<button class='btn btn btn-outline-dark' style='border:0px;' type='button'>▲</button>").click(function(){
+                let todo = $(this).parent().parent();
+                todo.fadeOut(function(){
+                    let doing_list = $("#doing_list");
+                    doing_list.append(todo);
+                    todo.fadeIn();
+                });
+            });
+            
+            let deletes = $("<button class='btn btn btn-outline-dark' style='border:0px' type='button'>❌</button>").click(function(){
+                let todo = $(this).parent().parent();
+                todo.fadeOut(function(){
+                    todo.remove();
+                });
+                
+            });
+            
+            buttons.append(done, doing, deletes);
+            todo.append(buttons);
+            
+            let todo_list = $("#todo_list");
+            todo_list.append(todo);
+        
+            $("#todo_content").val("");
+        }
+    }
+</script>
+</html>
